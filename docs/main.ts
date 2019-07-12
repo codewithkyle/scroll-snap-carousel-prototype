@@ -59,7 +59,14 @@ class Carousel
         if(this._dragging)
         {
             const newMouse = { x: e.x, y: e.y };
-            console.log((newMouse.x - this._mouse.x), (newMouse.y - this._mouse.y));
+            // console.log((newMouse.x - this._mouse.x), (newMouse.y - this._mouse.y));
+            const newOffset = (newMouse.x - this._mouse.x) * -1;
+            this._mouse = newMouse;
+            this._carousel.scrollBy({
+                left: newOffset,
+                top: 0,
+                behavior: 'auto'
+            });
         }
     }
 }

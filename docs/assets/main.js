@@ -34,7 +34,14 @@ var Carousel = /** @class */ (function () {
     Carousel.prototype.dragging = function (e) {
         if (this._dragging) {
             var newMouse = { x: e.x, y: e.y };
-            console.log((newMouse.x - this._mouse.x), (newMouse.y - this._mouse.y));
+            // console.log((newMouse.x - this._mouse.x), (newMouse.y - this._mouse.y));
+            var newOffset = (newMouse.x - this._mouse.x) * -1;
+            this._mouse = newMouse;
+            this._carousel.scrollBy({
+                left: newOffset,
+                top: 0,
+                behavior: 'auto'
+            });
         }
     };
     return Carousel;

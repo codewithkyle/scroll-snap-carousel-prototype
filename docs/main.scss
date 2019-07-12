@@ -8,8 +8,7 @@ carousel{
     height: 840px;
     display: block;
     white-space: nowrap;
-    overflow-x: scroll;
-    scroll-behavior: smooth;    
+    overflow: scroll;
     scroll-snap-type: x mandatory;
     font-size: 0;
     cursor: grab !important;
@@ -31,7 +30,7 @@ carousel{
         padding: 64px;
         position: relative;
         white-space: normal;
-        scroll-snap-align: start;
+        scroll-snap-align: start;        
         user-select: none;
 
         img{
