@@ -70,23 +70,21 @@ var Carousel = /** @class */ (function () {
             var direction = (this._dragDistance > 0) ? 1 : -1;
             var slideBounds = this._slides[slide].getBoundingClientRect();
             var difference = (direction === 1) ? slideBounds.left : slideBounds.right;
-            // if(Math.abs(difference) >= triggerDistance)
-            // {
-            //     const slideOffset = (direction === 1) ? slide + 1 : slide;
-            //     this._carousel.scrollTo({
-            //         left: widthPerSlide * slideOffset,
-            //         top: 0,
-            //         behavior: 'smooth'
-            //     });
-            // }
-            // else
-            // {
-            //     this._carousel.scrollTo({
-            //         left: currentScrollLeft + difference,
-            //         top: 0,
-            //         behavior: 'smooth'
-            //     });   
-            // }
+            if (Math.abs(difference) >= triggerDistance) {
+                var slideOffset = (direction === 1) ? slide + 1 : slide;
+                this._carousel.scrollTo({
+                    left: widthPerSlide * slideOffset,
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+            else {
+                this._carousel.scrollTo({
+                    left: currentScrollLeft + difference,
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
         }
     };
     Carousel.prototype.dragging = function (e) {
