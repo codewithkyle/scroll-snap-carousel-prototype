@@ -41,7 +41,7 @@ carousel{
         padding: 64px;
         position: relative;
         white-space: normal;
-        scroll-snap-align: start;        
+        scroll-snap-align: start end;
         user-select: none;
 
         img{
