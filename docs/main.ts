@@ -24,7 +24,8 @@ class Carousel
     private handleDragStart:EventListener = this.startDragging.bind(this);
     private handleDragStop:EventListener = this.stopDragging.bind(this);
     private handleDrag:EventListener = this.dragging.bind(this);
-    private handleMouseMove:EventListener = this.preventScrollSnapping.bind(this);
+    private handleMouseDown:EventListener = this.preventScrollSnapping.bind(this);
+    private handleScroll:EventListener = this.addScrollSnapping.bind(this);
 
     private init() : void
     {
@@ -35,15 +36,18 @@ class Carousel
         }
 
         this._carousel.addEventListener('mousemove', this.handleDrag, { passive: true });
-
-        document.body.addEventListener('mousemove', this.handleMouseMove, { passive: true });
+        this._carousel.addEventListener('mousedown', this.handleMouseDown, { passive: true });
+        this._carousel.addEventListener('scroll', this.handleScroll, { passive: true });
     }
 
     private preventScrollSnapping() : void
     {
         this._carousel.classList.add('is-pointer-device');
-        document.body.removeEventListener('mousemove', this.handleMouseMove);
-        this._carousel.addEventListener('scroll', (e:Event)=>{ e.preventDefault(); e.stopImmediatePropagation(); });
+    }
+
+    private addScrollSnapping() : void
+    {
+        this._carousel.classList.remove('is-pointer-device');
     }
 
     private startDragging(e:DragEvent) : void
