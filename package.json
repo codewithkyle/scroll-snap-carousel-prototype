@@ -1,0 +1,11 @@
+{
+  "name": "scroll-snap-carousel-prototype",
+  "scripts": {
+    "preview": "http-server ./docs",
+    "compile": "tsc"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "typescript": "^3.5.3"
+  }
+}
