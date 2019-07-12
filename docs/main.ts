@@ -53,7 +53,6 @@ class Carousel
     private startDragging(e:DragEvent) : void
     {
         e.preventDefault();
-        console.log('Started Dragging');
         this._carousel.classList.add('is-dragging');
         this._mouse = { x: e.x, y: e.y };
         this._dragging = true;
@@ -64,7 +63,6 @@ class Carousel
     {
         if(this._dragging)
         {
-            console.log('Stopped Dragging');
             this._carousel.classList.remove('is-dragging');
             this._dragging = false;
             this._mouse = null;
@@ -104,7 +102,6 @@ class Carousel
         if(this._dragging)
         {
             const newMouse = { x: e.x, y: e.y };
-            // console.log((newMouse.x - this._mouse.x), (newMouse.y - this._mouse.y));
             const newOffset = (newMouse.x - this._mouse.x) * -1;
             this._dragDistance += newOffset;
             this._mouse = newMouse;
