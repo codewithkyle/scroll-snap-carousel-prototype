@@ -120,7 +120,7 @@ class Carousel
                     left: widthPerSlide * slideOffset,
                     top: 0,
                     behavior: 'smooth'
-                });   
+                });
             }
             else
             {
