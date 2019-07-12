@@ -29,7 +29,6 @@ var Carousel = /** @class */ (function () {
     };
     Carousel.prototype.startDragging = function (e) {
         e.preventDefault();
-        console.log('Started Dragging');
         this._carousel.classList.add('is-dragging');
         this._mouse = { x: e.x, y: e.y };
         this._dragging = true;
@@ -37,7 +36,6 @@ var Carousel = /** @class */ (function () {
     };
     Carousel.prototype.stopDragging = function (e) {
         if (this._dragging) {
-            console.log('Stopped Dragging');
             this._carousel.classList.remove('is-dragging');
             this._dragging = false;
             this._mouse = null;
@@ -69,7 +67,6 @@ var Carousel = /** @class */ (function () {
     Carousel.prototype.dragging = function (e) {
         if (this._dragging) {
             var newMouse = { x: e.x, y: e.y };
-            // console.log((newMouse.x - this._mouse.x), (newMouse.y - this._mouse.y));
             var newOffset = (newMouse.x - this._mouse.x) * -1;
             this._dragDistance += newOffset;
             this._mouse = newMouse;
