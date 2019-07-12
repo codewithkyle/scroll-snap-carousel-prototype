@@ -3,6 +3,7 @@ var Carousel = /** @class */ (function () {
         this.handleDragStart = this.startDragging.bind(this);
         this.handleDragStop = this.stopDragging.bind(this);
         this.handleDrag = this.dragging.bind(this);
+        this.handleMouseMove = this.preventScrollSnapping.bind(this);
         this._carousel = document.body.querySelector('carousel');
         this._slides = Array.from(document.body.querySelectorAll('slide'));
         this._mouse = null;
@@ -16,6 +17,12 @@ var Carousel = /** @class */ (function () {
             this._slides[i].addEventListener('mouseup', this.handleDragStop);
         }
         this._carousel.addEventListener('mousemove', this.handleDrag, { passive: true });
+        document.body.addEventListener('mousemove', this.handleMouseMove, { passive: true });
+    };
+    Carousel.prototype.preventScrollSnapping = function () {
+        this._carousel.classList.add('is-pointer-device');
+        document.body.removeEventListener('mousemove', this.handleMouseMove);
+        this._carousel.addEventListener('scroll', function (e) { e.preventDefault(); e.stopImmediatePropagation(); });
     };
     Carousel.prototype.startDragging = function (e) {
         e.preventDefault();

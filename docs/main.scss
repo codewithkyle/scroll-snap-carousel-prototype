@@ -9,18 +9,27 @@ carousel{
     display: block;
     white-space: nowrap;
     overflow: scroll;
-    scroll-snap-type: x mandatory;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
     font-size: 0;
     cursor: grab !important;
     cursor: -moz-grab !important;
     cursor: -webkit-grab !important;
     user-select: none;
 
+    &::-webkit-scrollbar{
+        width: 0 !important;
+        height: 0 !important;
+    }
+
+    &:not(.is-pointer-device){
+        scroll-snap-type: x mandatory;
+    }
+
     &.is-dragging{
         cursor: grabbing !important;
         cursor: -moz-grabbing !important;
         cursor: -webkit-grabbing !important;
-        scroll-snap-type: none;
     }
 
     slide{
