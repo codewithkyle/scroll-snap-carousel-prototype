@@ -11,6 +11,8 @@ class Carousel
     private _dragging : boolean;
     private _dragDistance : number;
 
+    private _buttons : Array<HTMLButtonElement>;
+
     constructor()
     {
         this._carousel = document.body.querySelector('carousel');
@@ -18,6 +20,8 @@ class Carousel
         this._mouse = null;
         this._dragging = false;
         this._dragDistance = 0;
+
+        this._buttons = Array.from(document.body.querySelectorAll('button'));
         this.init();
     }
 
@@ -26,6 +30,7 @@ class Carousel
     private handleDrag:EventListener = this.dragging.bind(this);
     private handleMouseDown:EventListener = this.preventScrollSnapping.bind(this);
     private handleScroll:EventListener = this.addScrollSnapping.bind(this);
+    private handleButtonClick:EventListener = this.switchSlide.bind(this);
 
     private init() : void
     {
@@ -38,6 +43,37 @@ class Carousel
         this._carousel.addEventListener('mousemove', this.handleDrag, { passive: true });
         this._carousel.addEventListener('mousedown', this.handleMouseDown, { passive: true });
         this._carousel.addEventListener('scroll', this.handleScroll, { passive: true });
+
+        for(let i = 0; i < this._buttons.length; i++)
+        {
+            this._buttons[i].addEventListener('click', this.handleButtonClick);
+        }
+    }
+
+    private switchSlide(e:Event) : void
+    {
+        const target = <HTMLButtonElement>e.currentTarget;
+        const direction = parseInt(target.dataset.direction);
+
+        const currentScrollLeft = this._carousel.scrollLeft;
+        const totalScrollLeft = this._carousel.scrollWidth;
+        const widthPerSlide = totalScrollLeft / this._slides.length;
+        let slide = Math.floor(currentScrollLeft / widthPerSlide);
+
+        slide += direction;
+
+        if(slide < 0)
+        {
+            slide = 0;
+        }
+
+        const newOffset = widthPerSlide * slide;
+
+        this._carousel.scrollTo({
+            left: newOffset,
+            top: 0,
+            behavior: 'smooth'
+        });  
     }
 
     private preventScrollSnapping() : void
