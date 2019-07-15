@@ -13,6 +13,8 @@ class Carousel
 
     private _buttons : Array<HTMLButtonElement>;
 
+    private _slideControlButton : Array<HTMLButtonElement>;
+
     constructor()
     {
         this._carousel = document.body.querySelector('carousel');
@@ -22,6 +24,9 @@ class Carousel
         this._dragDistance = 0;
 
         this._buttons = Array.from(document.body.querySelectorAll('button'));
+
+        this._slideControlButton = Array.from(document.body.querySelectorAll('carousel-controls button'));
+
         this.init();
     }
 
@@ -31,6 +36,7 @@ class Carousel
     private handleMouseDown:EventListener = this.preventScrollSnapping.bind(this);
     private handleScroll:EventListener = this.addScrollSnapping.bind(this);
     private handleButtonClick:EventListener = this.switchSlide.bind(this);
+    private handleControlButtonClick:EventListener = this.jumpToSlide.bind(this);
 
     private init() : void
     {
@@ -47,6 +53,45 @@ class Carousel
         for(let i = 0; i < this._buttons.length; i++)
         {
             this._buttons[i].addEventListener('click', this.handleButtonClick);
+        }
+
+        for(let i = 0; i < this._slideControlButton.length; i++)
+        {
+            this._slideControlButton[i].addEventListener('click', this.handleControlButtonClick);
+        }
+    }
+
+    private jumpToSlide(e:Event) : void
+    {
+        const button = <HTMLButtonElement>e.currentTarget;
+        const slideIndex = parseInt(button.dataset.slideIndex);
+
+        const totalScrollLeft = this._carousel.scrollWidth;
+        const widthPerSlide = totalScrollLeft / this._slides.length;
+
+        const newOffset = widthPerSlide * slideIndex;
+
+        this._carousel.scrollTo({
+            left: newOffset,
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        this.updateActiveControl(slideIndex);
+    }
+
+    private updateActiveControl(newActiveIndex:number) : void
+    {
+        for(let i = 0; i < this._slideControlButton.length; i++)
+        {
+            if(i !== newActiveIndex)
+            {
+                this._slideControlButton[i].classList.remove('is-active');
+            }
+            else
+            {
+                this._slideControlButton[i].classList.add('is-active');
+            }
         }
     }
 

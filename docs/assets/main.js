@@ -6,12 +6,14 @@ var Carousel = /** @class */ (function () {
         this.handleMouseDown = this.preventScrollSnapping.bind(this);
         this.handleScroll = this.addScrollSnapping.bind(this);
         this.handleButtonClick = this.switchSlide.bind(this);
+        this.handleControlButtonClick = this.jumpToSlide.bind(this);
         this._carousel = document.body.querySelector('carousel');
         this._slides = Array.from(document.body.querySelectorAll('slide'));
         this._mouse = null;
         this._dragging = false;
         this._dragDistance = 0;
         this._buttons = Array.from(document.body.querySelectorAll('button'));
+        this._slideControlButton = Array.from(document.body.querySelectorAll('carousel-controls button'));
         this.init();
     }
     Carousel.prototype.init = function () {
@@ -24,6 +26,32 @@ var Carousel = /** @class */ (function () {
         this._carousel.addEventListener('scroll', this.handleScroll, { passive: true });
         for (var i = 0; i < this._buttons.length; i++) {
             this._buttons[i].addEventListener('click', this.handleButtonClick);
+        }
+        for (var i = 0; i < this._slideControlButton.length; i++) {
+            this._slideControlButton[i].addEventListener('click', this.handleControlButtonClick);
+        }
+    };
+    Carousel.prototype.jumpToSlide = function (e) {
+        var button = e.currentTarget;
+        var slideIndex = parseInt(button.dataset.slideIndex);
+        var totalScrollLeft = this._carousel.scrollWidth;
+        var widthPerSlide = totalScrollLeft / this._slides.length;
+        var newOffset = widthPerSlide * slideIndex;
+        this._carousel.scrollTo({
+            left: newOffset,
+            top: 0,
+            behavior: 'smooth'
+        });
+        this.updateActiveControl(slideIndex);
+    };
+    Carousel.prototype.updateActiveControl = function (newActiveIndex) {
+        for (var i = 0; i < this._slideControlButton.length; i++) {
+            if (i !== newActiveIndex) {
+                this._slideControlButton[i].classList.remove('is-active');
+            }
+            else {
+                this._slideControlButton[i].classList.add('is-active');
+            }
         }
     };
     Carousel.prototype.switchSlide = function (e) {
